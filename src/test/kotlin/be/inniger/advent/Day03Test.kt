@@ -31,4 +31,14 @@ class Day03Test {
     fun validateFirstSolution() {
         assertEquals(284, problem.solveFirst(input))
     }
+
+    @Test
+    fun validateSecondSampleInputs() {
+        assertEquals(336, problem.solveSecond(trees))
+    }
+
+    @Test
+    fun validateSecondSolution() {
+        assertEquals(3_510_149_120, problem.solveSecond(input))
+    }
 }

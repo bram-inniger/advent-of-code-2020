@@ -2,16 +2,34 @@ package be.inniger.advent
 
 class Day03 {
 
-    private val slope = Slope(3, 1)
-
-    fun solveFirst(treesDescription: List<String>): Int {
+    fun solveFirst(treesDescription: List<String>): Long {
         val forest = Forest.of(treesDescription)
+        val slope = Slope(3, 1)
 
-        return generateSequence(Tree(0, 0)) { Tree(it.x + slope.right, it.y + slope.down) }
+        return countEncounteredTrees(forest, slope)
+    }
+
+    fun solveSecond(treesDescription: List<String>): Long {
+        val forest = Forest.of(treesDescription)
+        val slopes = listOf(
+            Slope(1, 1),
+            Slope(3, 1),
+            Slope(5, 1),
+            Slope(7, 1),
+            Slope(1, 2)
+        )
+
+        return slopes
+            .map { countEncounteredTrees(forest, it) }
+            .reduce(Long::times)
+    }
+
+    private fun countEncounteredTrees(forest: Forest, slope: Slope) =
+        generateSequence(Tree(0, 0)) { Tree(it.x + slope.right, it.y + slope.down) }
             .takeWhile { it.y < forest.height }
             .filter { forest.containsTree(it) }
             .count()
-    }
+            .toLong()
 
     private data class Slope(val right: Int, val down: Int)
 
