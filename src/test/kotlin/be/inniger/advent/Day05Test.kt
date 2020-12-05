@@ -29,4 +29,14 @@ class Day05Test {
     fun validateFirstSolution() {
         assertEquals(880, problem.solveFirst(input))
     }
+
+    @Test
+    fun validateSecondSampleInputs() {
+        // No sample inputs given
+    }
+
+    @Test
+    fun validateSecondSolution() {
+        assertEquals(731, problem.solveSecond(input))
+    }
 }
