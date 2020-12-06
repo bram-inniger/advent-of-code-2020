@@ -36,4 +36,14 @@ class Day06Test {
     fun validateFirstSolution() {
         assertEquals(6273, problem.solveFirst(input))
     }
+
+    @Test
+    fun validateSecondSampleInputs() {
+        assertEquals(6, problem.solveSecond(fullResponse))
+    }
+
+    @Test
+    fun validateSecondSolution() {
+        assertEquals(3254, problem.solveSecond(input))
+    }
 }
