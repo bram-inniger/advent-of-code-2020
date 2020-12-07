@@ -69,3 +69,40 @@ De elven willen graag alle pakjes voor Nederland in één zak stoppen.
 Wat is de minimale lengte van een zijde voor de zak die zak?
 
 Correct beantwoord! Jouw antwoord was: 1581.
+
+infi@nerd-pc ▶ ~/aoc2020 ▶ cat part2.md
+
+Om een zak te kunnen maken hebben de elven natuurlijk wel voldoende stof nodig. De zak bestaat uit:
+
+    een bodem ‾.
+    de schuine zijdes / of \.
+    De zijkanten|.
+    De bovenkant_.
+
+Conclusie
+
+    Voor een zak met zijde van lengte 1 zijn 8 stukken stof nodig
+    Voor een zak met zijde van lengte 4 zijn 32 stukken stof nodig
+    Voor een zak met zijde van lengte 25 zijn 200 stukken stof nodig
+
+De kerstman kan op zijn tocht in 1 zak alle cadeautjes voor 1 continent meenemen.
+De elven zetten van tevoren alle zakken klaar op de noordpool.
+Na ieder continent komt hij even terug op de noordpool om de volgende zak op te halen.
+De elven weten per continent hoeveel cadeautjes er bezorgt moeten worden:
+
+    Asia4.541.609.892
+    Africa1.340.869.106
+    Europe  747.751.712
+    South America  430.857.328
+    North America  368.983.009
+    Oceania   42.705.675
+
+Hoeveel stukken stof moeten de elven mimimaal kopen om alle zakken te kunnen maken?
+
+Correct beantwoord! Jouw antwoord was: 537816.
+
+infi@nerd-pc ▶ ~/aoc2020 ▶ cat congratulations.md
+
+Namens de elven: bedankt!
+
+Dankzij jouw hulp kunnen ze op tijd alles klaar zetten en kunnen de pakjes op kerst bezorgd gaan worden.
