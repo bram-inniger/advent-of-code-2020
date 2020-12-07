@@ -6,49 +6,63 @@ class Day07 {
         private const val TO_FIND = "shiny gold"
     }
 
-    fun solveFirst(bagRules: List<String>): Int {
-        val rules = bagRules.map { Rule.of(it) }
-        val bagMapping = mutableMapOf<String, MutableSet<String>>()
-
-        for (rule in rules) {
-            for (content in rule.contents) {
-                val numberRemovedContent = content.substringAfter(' ')
-                if (bagMapping.containsKey(numberRemovedContent)) {
-                    bagMapping[numberRemovedContent]!!.add(rule.bag)
-                } else {
-                    bagMapping[numberRemovedContent] = mutableSetOf(rule.bag)
-                }
+    fun solveFirst(bagRules: List<String>) =
+        bagRules.map { Rule.of(it) }
+            .flatMap { rule ->
+                rule.contents
+                    .keys
+                    .map { content -> content to rule.bag }
             }
-        }
+            .groupingBy { it.first }
+            .fold(setOf<String>(), { bags, container -> bags + container.second })
+            .let { countContainerBags(it) }
 
-        return countValidBags(bagMapping)
+    fun solveSecond(bagRules: List<String>): Int {
+        return bagRules.map { Rule.of(it) }
+            .map { it.bag to it.contents }
+            .toMap()
+            .let { countContainedBags(it) }
+            .minus(1)
     }
 
-    private tailrec fun countValidBags(
-        bagMapping: MutableMap<String, MutableSet<String>>,
+    private tailrec fun countContainerBags(
+        containerBags: Map<String, Set<String>>,
         toFind: List<String> = listOf(TO_FIND),
-        validBags: Set<String> = setOf()
+        foundContainers: Set<String> = setOf()
     ): Int =
-        if (toFind.isEmpty()) {
-            validBags.size
-        } else {
-            val nextValues = bagMapping[toFind[0]] ?: setOf()
-            val nextToFind = toFind.minus(toFind[0]).plus(nextValues)
-            val nextValidBags = validBags.plus(nextValues)
+        if (toFind.isEmpty()) foundContainers.size
+        else {
+            val nextBags = containerBags[toFind.first()] ?: setOf()
+            val nextToFind = toFind - toFind.first() + nextBags
+            val nextFoundContainers = foundContainers + nextBags
 
-            countValidBags(bagMapping, nextToFind, nextValidBags)
+            countContainerBags(containerBags, nextToFind, nextFoundContainers)
         }
 
-    private data class Rule(val bag: String, val contents: Set<String>) {
+    private fun countContainedBags(bagMapping: Map<String, Map<String, Int>>, toFind: String = TO_FIND): Int =
+        bagMapping.getOrDefault(toFind, mapOf())
+            .map { it.value * countContainedBags(bagMapping, it.key) }
+            .sum()
+            .plus(1)
+
+    private data class Rule(val bag: String, val contents: Map<String, Int>) {
 
         companion object {
-            private val regex = """^(\w+ \w+) bags contain (.*)\.$""".toRegex() // FIXME, cleaner regex
+            private val fullRegex =
+                """^(\w+ \w+) bags contain ((?:\d+ \w+ \w+ bags?(?:, )?)+|(?:no other bags))\.$""".toRegex()
+            private val contentRegex = """^(\d+) (\w+ \w+) bags?$""".toRegex()
 
             internal fun of(bagRule: String): Rule {
-                val (bag, contents) = regex.find(bagRule)!!.destructured
+                val (bag, contents) = fullRegex.find(bagRule)!!.destructured
                 val parsedContents =
-                    if (contents == "no other bags") setOf()
-                    else contents.split(", ").map { it.substringBefore(" bag") }.toSet()
+                    if (contents == "no other bags") mapOf()
+                    else contents
+                        .split(", ")
+                        .map {
+                            val (bagsCount, containedBag) = contentRegex.find(it)!!.destructured
+                            containedBag to bagsCount.toInt()
+                        }
+                        .toMap()
 
                 return Rule(bag, parsedContents)
             }
