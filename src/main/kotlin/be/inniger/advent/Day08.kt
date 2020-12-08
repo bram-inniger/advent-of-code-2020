@@ -9,37 +9,31 @@ class Day08 {
 
     fun solveSecond(program: List<String>) =
         program.indices
-            .map { flip(program, it) }
-            .map { execute(it) }
-            .single { it.status == HaltState.TERMINATED }
+            .reversed()
+            .map { execute(program, it) }
+            .first { it.status == HaltState.TERMINATED }
             .acc
 
-    private fun execute(program: List<String>): Result {
+    private fun execute(program: List<String>, toFlip: Int = -1): Result {
         var acc = 0
         var index = 0
         val visited = mutableSetOf<Int>()
 
         while (index < program.size && index !in visited) {
-            val (ins, arg) = program[index].split(' ')
+            val ins = if (index == toFlip) flip(program[index]) else program[index]
+            val (op, arg) = ins.split(' ')
 
             visited += index
-            acc += if (ins == "acc") arg.toInt() else 0
-            index += if (ins == "jmp") arg.toInt() else 1
+            acc += if (op == "acc") arg.toInt() else 0
+            index += if (op == "jmp") arg.toInt() else 1
         }
 
         return Result(if (index >= program.size) HaltState.TERMINATED else HaltState.LOOPING, acc)
     }
 
-    private fun flip(program: List<String>, toFlip: Int): List<String> {
-        val toFlipIns = program[toFlip]
-        val flippedIns = when {
-            toFlipIns.startsWith("jmp") -> toFlipIns.replace("jmp", "nop")
-            toFlipIns.startsWith("nop") -> toFlipIns.replace("nop", "jmp")
-            else -> toFlipIns
-        }
-
-        return program.mapIndexed { index, ins -> if (index == toFlip) flippedIns else ins }
-    }
+    private fun flip(ins: String) =
+        if (ins.startsWith("jmp")) ins.replace("jmp", "nop")
+        else ins.replace("nop", "jmp")
 
     private data class Result(val status: HaltState, val acc: Int) {
         enum class HaltState { LOOPING, TERMINATED }
