@@ -1,5 +1,8 @@
 package be.inniger.advent
 
+import be.inniger.advent.util.maxOrThrow
+import be.inniger.advent.util.minOrThrow
+
 class Day09 {
 
     fun solveFirst(xmas: List<Long>, preAmble: Int) =
@@ -20,8 +23,7 @@ class Day09 {
                 (first + 1 until searchIndex)
                     .map { second -> first to second }
             }
-            .map { xmas[it.first] to xmas[it.second] }
-            .map { it.first + it.second }
+            .map { xmas[it.first] + xmas[it.second] }
             .none { it == xmas[searchIndex] }
 
     private fun findSummingRange(fault: Long, xmas: List<Long>) =
@@ -43,7 +45,4 @@ class Day09 {
     }
 
     private data class Result(val from: Int, val to: Int, val found: Boolean)
-
-    private fun List<Long>.minOrThrow() = this.minOrNull() ?: error("Could not find min")
-    private fun List<Long>.maxOrThrow() = this.maxOrNull() ?: error("Could not find max")
 }
