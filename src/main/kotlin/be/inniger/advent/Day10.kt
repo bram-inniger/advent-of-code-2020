@@ -16,4 +16,16 @@ class Day10 {
             .values
             .reduce(Int::times)
     }
+
+    fun solveSecond(adaptersList: List<Int>): Long {
+        fun findNrPaths(adapters: Set<Int>, from: Int, cache: MutableMap<Int, Long>): Long =
+            cache.getOrPut(from) {
+                (1..3).map { from - it }
+                    .filter { adapters.contains(it) }
+                    .map { findNrPaths(adapters, it, cache) }
+                    .sum()
+            }
+
+        return findNrPaths(adaptersList.toSet() + 0, adaptersList.maxOrThrow(), mutableMapOf(0 to 1))
+    }
 }
