@@ -2,34 +2,33 @@ package be.inniger.advent
 
 class Day11 {
 
-    fun solveFirst(grid: List<String>): Int {
-        var result = simulateNext(Grid.of(grid))
+    fun solveFirst(gridString: List<String>) =
+        solve(Result(Grid.of(gridString)), 4) { grid, coord -> nrOfOccupiedNeighbours(grid, coord) }
 
-        while (result.seatsChanged > 0) {
-            result = simulateNext(result.grid)
-        }
+    fun solveSecond(gridString: List<String>) =
+        solve(Result(Grid.of(gridString)), 5) { grid, coord -> nrOfOccupiedVisible(grid, coord) }
 
-        return result.grid
-            .grid
-            .filter { it.value == Seat.O }
-            .count()
-    }
+    private fun solve(result: Result, switchThreshold: Int, nrOccupied: (grid: Grid, coord: Coordinate) -> Int): Int =
+        if (result.seatsChanged == 0) result.grid.grid.filter { it.value == Seat.O }.count()
+        else solve(simulateNext(result.grid, switchThreshold, nrOccupied), switchThreshold, nrOccupied)
 
-    private fun simulateNext(grid: Grid): Result {
+    private fun simulateNext(
+        grid: Grid, switchThreshold: Int, nrOccupied: (grid: Grid, coord: Coordinate) -> Int
+    ): Result {
         var changed = 0
         val newGrid = mutableMapOf<Coordinate, Seat>()
 
-        for (coordinate in grid.grid.keys) {
-            val seat = grid.grid[coordinate]!!
-            val occupiedNeighbours = nrOfOccupiedNeighbours(grid, coordinate)
+        for (coord in grid.grid.keys) {
+            val seat = grid.grid[coord]!!
+            val occupiedNeighbours = nrOccupied(grid, coord)
 
             val flip = (seat == Seat.E && occupiedNeighbours == 0) ||
-                    (seat == Seat.O && occupiedNeighbours >= 4)
+                    (seat == Seat.O && occupiedNeighbours >= switchThreshold)
 
-            newGrid[coordinate] = when (seat) {
+            newGrid[coord] = when (seat) {
                 Seat.E -> if (flip) Seat.O else Seat.E
                 Seat.O -> if (flip) Seat.E else Seat.O
-                Seat.F -> error("Invalid entry found in map at $coordinate")
+                Seat.F -> error("Invalid entry found in map at $coord")
             }
             changed += if (flip) 1 else 0
         }
@@ -41,6 +40,22 @@ class Day11 {
         (-1..1).flatMap { x ->
             (-1..1).filter { y -> x != 0 || y != 0 }
                 .map { y -> Coordinate(center.x + x, center.y + y) }
+        }
+            .filter { grid.grid.getOrDefault(it, Seat.F) == Seat.O }
+            .count()
+
+    private fun nrOfOccupiedVisible(grid: Grid, center: Coordinate) =
+        (-1..1).flatMap { x ->
+            (-1..1).filter { y -> x != 0 || y != 0 }
+                .map { y -> Coordinate(x, y) }
+                .map {
+                    generateSequence(1) { it + 1 }
+                        .map { i -> Coordinate(center.x + i * it.x, center.y + i * it.y) }
+                        .first {
+                            it.x !in 0..grid.width || it.y !in 0..grid.height ||
+                                    grid.grid.getOrDefault(it, Seat.F) != Seat.F
+                        }
+                }
         }
             .filter { grid.grid.getOrDefault(it, Seat.F) == Seat.O }
             .count()
@@ -91,5 +106,5 @@ class Day11 {
 
     private data class Coordinate(val x: Int, val y: Int)
 
-    private data class Result(val grid: Grid, val seatsChanged: Int)
+    private data class Result(val grid: Grid, val seatsChanged: Int = Int.MAX_VALUE)
 }
