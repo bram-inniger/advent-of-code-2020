@@ -6,22 +6,38 @@ import kotlin.math.abs
 
 class Day12 {
 
-    fun solveFirst(instructionsRaw: List<String>) =
-        manoeuvre(
+    fun solveFirst(instructions: List<String>) =
+        simpleManoeuvre(
             Ship(EAST, 0, 0),
-            instructionsRaw.map { Instruction.of(it) }
+            instructions.map { Instruction.of(it) }
         )
             .let { abs(it.north) + abs(it.east) }
 
-    private tailrec fun manoeuvre(ship: Ship, instructions: List<Instruction>): Ship =
+    fun solveSecond(instructions: List<String>) =
+        waypointManoeuvre(
+            Ship(EAST, 0, 0),
+            WayPoint(1, 10),
+            instructions.map { Instruction.of(it) }
+        )
+            .let { abs(it.north) + abs(it.east) }
+
+    private tailrec fun simpleManoeuvre(ship: Ship, instructions: List<Instruction>): Ship =
         if (instructions.isEmpty()) ship
-        else manoeuvre(
-            move(ship, instructions.first()),
+        else simpleManoeuvre(
+            simpleMove(ship, instructions.first()),
             instructions.subList(1, instructions.size)
         )
 
-    private fun move(ship: Ship, instruction: Instruction): Ship {
-        return when (instruction.action) {
+    private tailrec fun waypointManoeuvre(ship: Ship, wayPoint: WayPoint, instructions: List<Instruction>): Ship =
+        if (instructions.isEmpty()) ship
+        else waypointManoeuvre(
+            shipMove(ship, wayPoint, instructions.first()),
+            wayPointMove(wayPoint, instructions.first()),
+            instructions.subList(1, instructions.size)
+        )
+
+    private fun simpleMove(ship: Ship, instruction: Instruction) =
+        when (instruction.action) {
             N -> Ship(ship.direction, ship.north + instruction.value, ship.east)
             S -> Ship(ship.direction, ship.north - instruction.value, ship.east)
             E -> Ship(ship.direction, ship.north, ship.east + instruction.value)
@@ -35,7 +51,38 @@ class Day12 {
                 WEST -> Ship(ship.direction, ship.north, ship.east - instruction.value)
             }
         }
-    }
+
+    private fun shipMove(ship: Ship, wayPoint: WayPoint, instruction: Instruction) =
+        if (instruction.action == F)
+            Ship(
+                ship.direction,
+                ship.north + instruction.value * wayPoint.north,
+                ship.east + instruction.value * wayPoint.east
+            )
+        else ship
+
+    private fun wayPointMove(wayPoint: WayPoint, instruction: Instruction) =
+        when (instruction.action) {
+            N -> WayPoint(wayPoint.north + instruction.value, wayPoint.east)
+            S -> WayPoint(wayPoint.north - instruction.value, wayPoint.east)
+            E -> WayPoint(wayPoint.north, wayPoint.east + instruction.value)
+            W -> WayPoint(wayPoint.north, wayPoint.east - instruction.value)
+            L -> when ((instruction.value + 360) % 360) {
+                0 -> wayPoint
+                90 -> WayPoint(wayPoint.east, -wayPoint.north)
+                180 -> WayPoint(-wayPoint.north, -wayPoint.east)
+                270 -> WayPoint(-wayPoint.east, wayPoint.north)
+                else -> error("Illegal turn of ${instruction.value} degrees")
+            }
+            R -> when ((instruction.value + 360) % 360) {
+                0 -> wayPoint
+                90 -> WayPoint(-wayPoint.east, wayPoint.north)
+                180 -> WayPoint(-wayPoint.north, -wayPoint.east)
+                270 -> WayPoint(wayPoint.east, -wayPoint.north)
+                else -> error("Illegal turn of ${instruction.value} degrees")
+            }
+            F -> wayPoint
+        }
 
     private data class Instruction(val action: Action, val value: Int) {
 
@@ -51,6 +98,8 @@ class Day12 {
     }
 
     private data class Ship(val direction: Direction, val north: Int, val east: Int)
+
+    private data class WayPoint(val north: Int, val east: Int)
 
     private enum class Action { N, S, E, W, L, R, F }
 
