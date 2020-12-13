@@ -2,6 +2,8 @@ package be.inniger.advent
 
 import be.inniger.advent.Day12.Action.*
 import be.inniger.advent.Day12.Direction.*
+import be.inniger.advent.util.head
+import be.inniger.advent.util.tail
 import kotlin.math.abs
 
 class Day12 {
@@ -24,16 +26,16 @@ class Day12 {
     private tailrec fun simpleManoeuvre(ship: Ship, instructions: List<Instruction>): Ship =
         if (instructions.isEmpty()) ship
         else simpleManoeuvre(
-            simpleMove(ship, instructions.first()),
-            instructions.subList(1, instructions.size)
+            simpleMove(ship, instructions.head()),
+            instructions.tail()
         )
 
     private tailrec fun waypointManoeuvre(ship: Ship, wayPoint: WayPoint, instructions: List<Instruction>): Ship =
         if (instructions.isEmpty()) ship
         else waypointManoeuvre(
-            shipMove(ship, wayPoint, instructions.first()),
-            wayPointMove(wayPoint, instructions.first()),
-            instructions.subList(1, instructions.size)
+            shipMove(ship, wayPoint, instructions.head()),
+            wayPointMove(wayPoint, instructions.head()),
+            instructions.tail()
         )
 
     private fun simpleMove(ship: Ship, instruction: Instruction) =

@@ -1,5 +1,8 @@
 package be.inniger.advent
 
+import be.inniger.advent.util.head
+import be.inniger.advent.util.tail
+
 class Day07 {
 
     private companion object {
@@ -32,8 +35,8 @@ class Day07 {
     ): Int =
         if (toFind.isEmpty()) foundContainers.size
         else {
-            val nextBags = containerBags[toFind.first()] ?: setOf()
-            val nextToFind = toFind - toFind.first() + nextBags
+            val nextBags = containerBags[toFind.head()] ?: setOf()
+            val nextToFind = toFind.tail() + nextBags
             val nextFoundContainers = foundContainers + nextBags
 
             countContainerBags(containerBags, nextToFind, nextFoundContainers)
