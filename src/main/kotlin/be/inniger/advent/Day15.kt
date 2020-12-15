@@ -18,13 +18,14 @@ class Day15 {
 
     fun solveSecond(startingNumbers: List<Int>): Int {
         val maxTurn = 30_000_000
-        val history = startingNumbers.mapIndexed { index, number -> number to index + 1 }.toMap().toMutableMap()
+        val history = IntArray(maxTurn)
+        startingNumbers.mapIndexed { index, number -> number to index + 1 }.forEach { history[it.first] = it.second }
 
         var turn = startingNumbers.size + 1
         var lastSpoken = 0
 
         while (turn < maxTurn) {
-            val newLastSpoken = turn - (history[lastSpoken] ?: turn)
+            val newLastSpoken = if (history[lastSpoken] == 0) 0 else turn - history[lastSpoken]
             history[lastSpoken] = turn
             lastSpoken = newLastSpoken
             turn++
