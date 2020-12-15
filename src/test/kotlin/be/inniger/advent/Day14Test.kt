@@ -25,4 +25,21 @@ class Day14Test {
     fun validateFirstSolution() {
         assertEquals(8_332_632_930_672, problem.solveFirst(input))
     }
+
+    @Test
+    fun validateSecondSampleInputs() {
+        val program = listOf(
+            "mask = 000000000000000000000000000000X1001X",
+            "mem[42] = 100",
+            "mask = 00000000000000000000000000000000X0XX",
+            "mem[26] = 1"
+        )
+
+        assertEquals(208, problem.solveSecond(program))
+    }
+
+    @Test
+    fun validateSecondSolution() {
+        assertEquals(4_753_238_784_664, problem.solveSecond(input))
+    }
 }
