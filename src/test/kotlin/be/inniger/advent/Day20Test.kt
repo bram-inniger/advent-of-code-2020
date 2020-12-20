@@ -1,7 +1,8 @@
 package be.inniger.advent
 
 import be.inniger.advent.util.readInputFile
-import org.junit.Test
+import kotlin.test.Ignore
+import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class Day20Test {
@@ -124,6 +125,7 @@ class Day20Test {
         assertEquals(20_899_048_083_289, problem.solveFirst(tiles))
     }
 
+    @Ignore("Too long runtime...")
     @Test
     fun validateFirstSolution() {
         assertEquals(28_057_939_502_729, problem.solveFirst(input))
@@ -134,6 +136,7 @@ class Day20Test {
         assertEquals(273, problem.solveSecond(tiles))
     }
 
+    @Ignore("Too long runtime...")
     @Test
     fun validateSecondSolution() {
         assertEquals(2_489, problem.solveSecond(input))

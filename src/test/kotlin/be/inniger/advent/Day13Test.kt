@@ -1,7 +1,7 @@
 package be.inniger.advent
 
 import be.inniger.advent.util.readInputFile
-import org.junit.Test
+import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class Day13Test {
