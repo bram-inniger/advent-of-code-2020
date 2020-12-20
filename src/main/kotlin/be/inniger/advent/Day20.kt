@@ -6,14 +6,38 @@ import be.inniger.advent.util.tail
 
 class Day20 {
 
+    private companion object {
+        private val monster = parseMonster(
+            """
+                                  # 
+                #    ##    ##    ###
+                 #  #  #  #  #  #   
+            """.trimIndent().split("\n")
+        )
+
+        private fun parseMonster(monster: List<String>) = Monster(
+            monster.first().length,
+            monster.size,
+            monster.indices
+                .flatMap { y ->
+                    monster[y].indices.map { x ->
+                        Coordinate(x, y)
+                    }
+                }
+                .filter { monster[it.y][it.x] == '#' }
+                .toSet())
+    }
+
     fun solveFirst(tiles: String) =
-        multiplyCorners(
-            assemble(
-                tiles.split("\n\n")
-                    .map { it.split("\n") }
-                    .map { Tile.of(it) }
-                    .toSet()
-            ))
+        multiplyCorners(assemble(parseTiles(tiles)))
+
+    fun solveSecond(tiles: String) =
+        determineRoughness(assemble(parseTiles(tiles)))
+
+    private fun parseTiles(tiles: String) = tiles.split("\n\n")
+        .map { it.split("\n") }
+        .map { Tile.of(it) }
+        .toSet()
 
     private fun assemble(
         tiles: Set<Tile>,
@@ -33,8 +57,6 @@ class Day20 {
                     gridList.addAll(
                         assemble(newTiles, nextPosition(nextPosition, sideLength), sideLength, newGrid)
                     )
-
-                    if (gridList.isNotEmpty()) return gridList
                 }
             }
         }
@@ -62,17 +84,14 @@ class Day20 {
         if (position.x + 1 == sideLength) Coordinate(0, position.y + 1)
         else Coordinate(position.x + 1, position.y)
 
-    private fun multiplyCorners(
-        grids: List<Map<Coordinate, OrientedTile>>,
-        sideLength: Int = sqrt(grids[0].size)
-    ) =
+    private fun multiplyCorners(grids: List<Map<Coordinate, OrientedTile>>, side: Int = sqrt(grids.first().size)) =
         grids.map { grid ->
             grid.filterKeys {
                 it in setOf(
                     Coordinate(0, 0),
-                    Coordinate(0, sideLength - 1),
-                    Coordinate(sideLength - 1, 0),
-                    Coordinate(sideLength - 1, sideLength - 1)
+                    Coordinate(0, side - 1),
+                    Coordinate(side - 1, 0),
+                    Coordinate(side - 1, side - 1)
                 )
             }
                 .values
@@ -81,6 +100,43 @@ class Day20 {
         }
             .distinct()
             .single()
+
+    private fun determineRoughness(
+        grids: List<Map<Coordinate, OrientedTile>>,
+        side: Int = sqrt(grids.first().size),
+        content: Int = grids.first().values.first().contents.size
+    ) =
+        grids.map { grid ->
+            (0 until side * content)
+                .map { y ->
+                    (0 until side * content).map { x ->
+                        grid[Coordinate(x / content, y / content)]!!.contents[y % content][x % content]
+                    }
+                }
+        }
+            .map { fullGrid ->
+                (0..fullGrid.lastIndex - monster.height)
+                    .flatMap { y ->
+                        (0..fullGrid[y].lastIndex - monster.width).map { x ->
+                            Coordinate(x, y)
+                        }
+                    }.filter { coord ->
+                        monster.body.all { monster ->
+                            fullGrid[monster.y + coord.y][monster.x + coord.x]
+                        }
+                    }
+                    .count() to fullGrid
+            }
+            .single { it.first > 0 }
+            .let {
+                val nrMatches = it.first
+                val fullGrid = it.second
+
+                fullGrid.indices.flatMap { y -> fullGrid[y].indices.map { x -> Coordinate(x, y) } }
+                    .filter { coord -> fullGrid[coord.y][coord.x] }
+                    .count()
+                    .toLong() - (nrMatches * monster.body.size)
+            }
 
     private data class Tile(val id: Int, val orientedTiles: List<OrientedTile>) {
 
@@ -103,20 +159,26 @@ class Day20 {
                 val left = contents.indices
                     .map { contents[it][0] }
                     .map { readPixel(it) }
+                val innerContent = (1 until contents.lastIndex)
+                    .map { y ->
+                        (1 until contents.lastIndex).map { x ->
+                            readPixel(contents[y][x])
+                        }
+                    }
+
+                val orientedTile = OrientedTile(id, top, right, bottom, left, innerContent)
 
                 return Tile(
                     id,
                     listOf(
-                        // rotated
-                        OrientedTile(id, top, right, bottom, left),
-                        OrientedTile(id, left.reversed(), top, right.reversed(), bottom),
-                        OrientedTile(id, bottom.reversed(), left.reversed(), top.reversed(), right.reversed()),
-                        OrientedTile(id, right, bottom.reversed(), left, top.reversed()),
-                        // flipped + rotated
-                        OrientedTile(id, top.reversed(), left, bottom.reversed(), right),
-                        OrientedTile(id, right.reversed(), top.reversed(), left.reversed(), bottom.reversed()),
-                        OrientedTile(id, bottom, right.reversed(), top, left.reversed()),
-                        OrientedTile(id, left, bottom, right, top),
+                        orientedTile,
+                        orientedTile.rotate(),
+                        orientedTile.rotate().rotate(),
+                        orientedTile.rotate().rotate().rotate(),
+                        orientedTile.flip(),
+                        orientedTile.flip().rotate(),
+                        orientedTile.flip().rotate().rotate(),
+                        orientedTile.flip().rotate().rotate().rotate()
                     )
                 )
             }
@@ -134,8 +196,31 @@ class Day20 {
         val top: List<Boolean>,
         val right: List<Boolean>,
         val bottom: List<Boolean>,
-        val left: List<Boolean>
-    )
+        val left: List<Boolean>,
+        val contents: List<List<Boolean>>
+    ) {
+        fun rotate(): OrientedTile {
+            val newContents = contents.indices
+                .map { y ->
+                    contents.indices.map { x ->
+                        contents[contents.lastIndex - x][y]
+                    }
+                }
+            return OrientedTile(tileId, left.reversed(), top, right.reversed(), bottom, newContents)
+        }
+
+        fun flip(): OrientedTile {
+            val newContents = contents.indices
+                .map { y ->
+                    contents.indices.map { x ->
+                        contents[y][contents.lastIndex - x]
+                    }
+                }
+            return OrientedTile(tileId, top.reversed(), left, bottom.reversed(), right, newContents)
+        }
+    }
 
     private data class Coordinate(val x: Int, val y: Int)
+
+    private data class Monster(val width: Int, val height: Int, val body: Set<Coordinate>)
 }

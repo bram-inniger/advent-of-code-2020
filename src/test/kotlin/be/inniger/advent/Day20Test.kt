@@ -128,4 +128,14 @@ class Day20Test {
     fun validateFirstSolution() {
         assertEquals(28_057_939_502_729, problem.solveFirst(input))
     }
+
+    @Test
+    fun validateSecondSampleInputs() {
+        assertEquals(273, problem.solveSecond(tiles))
+    }
+
+    @Test
+    fun validateSecondSolution() {
+        assertEquals(2_489, problem.solveSecond(input))
+    }
 }
