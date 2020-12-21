@@ -4,17 +4,10 @@ class Day21 {
 
     fun solveFirst(foodsRaw: List<String>): Int {
         val foods = foodsRaw.map { Food.of(it) }
-        val allAllergens = foods.flatMap { it.allergens }.toSet()
+        val mappedAllergens = mapAllergens(foods)
+
         val allIngredients = foods.flatMap { it.ingredients }.toSet()
-
-        val allergenToIngredients = allAllergens.map { allergen ->
-            allergen to foods
-                .filter { food -> food.allergens.contains(allergen) }
-                .map { food -> food.ingredients }
-                .reduce(Set<String>::intersect)
-        }.toMap()
-
-        val unsafeIngredients = allergenToIngredients.values.flatten().toSet()
+        val unsafeIngredients = mappedAllergens.values.flatten().toSet()
         val safeIngredients = allIngredients - unsafeIngredients
 
         return safeIngredients
@@ -23,6 +16,38 @@ class Day21 {
             }
             .sum()
     }
+
+    fun solveSecond(foods: List<String>) =
+        mapUniqueIngredient(
+            mapAllergens(foods.map { Food.of(it) })
+        )
+            .entries
+            .sortedBy { it.value }
+            .joinToString(",") { it.key }
+
+    private fun mapAllergens(foods: List<Food>) =
+        foods.flatMap { it.allergens }
+            .distinct()
+            .map { allergen ->
+                allergen to foods
+                    .filter { food -> food.allergens.contains(allergen) }
+                    .map { food -> food.ingredients }
+                    .reduce(Set<String>::intersect)
+            }.toMap()
+
+    private tailrec fun mapUniqueIngredient(
+        mappedAllergens: Map<String, Set<String>>,
+        mappedIngredients: Map<String, String> = mapOf()
+    ): Map<String, String> =
+        if (mappedAllergens.isEmpty()) mappedIngredients
+        else {
+            val (allergen, ingredient) = mappedAllergens.entries.first { it.value.size == 1 }
+
+            mapUniqueIngredient(
+                mappedAllergens.filterKeys { it != allergen }.mapValues { it.value - ingredient },
+                mappedIngredients + (ingredient.single() to allergen)
+            )
+        }
 
     private data class Food(val ingredients: Set<String>, val allergens: Set<String>) {
 

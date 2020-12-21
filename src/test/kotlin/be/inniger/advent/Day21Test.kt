@@ -24,4 +24,14 @@ class Day21Test {
     fun validateFirstSolution() {
         assertEquals(2_211, problem.solveFirst(input))
     }
+
+    @Test
+    fun validateSecondSampleInputs() {
+        assertEquals("mxmxvkd,sqjhc,fvjkl", problem.solveSecond(foods))
+    }
+
+    @Test
+    fun validateSecondSolution() {
+        assertEquals("vv,nlxsmb,rnbhjk,bvnkk,ttxvphb,qmkz,trmzkcfg,jpvz", problem.solveSecond(input))
+    }
 }
