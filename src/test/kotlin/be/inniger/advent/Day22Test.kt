@@ -34,4 +34,14 @@ class Day22Test {
     fun validateFirstSolution() {
         assertEquals(35_562, problem.solveFirst(input))
     }
+
+    @Test
+    fun validateSecondSampleInputs() {
+        assertEquals(291, problem.solveSecond(decks))
+    }
+
+    @Test
+    fun validateSecondSolution() {
+        assertEquals(34_424, problem.solveSecond(input))
+    }
 }
