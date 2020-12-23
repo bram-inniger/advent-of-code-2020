@@ -12,12 +12,22 @@ class Day23Test {
 
     @Test
     fun validateFirstSampleInputs() {
-        assertEquals("92658374", problem.solveFirst(cups, 10))
-        assertEquals("67384529", problem.solveFirst(cups, 100))
+        assertEquals(92_658_374, problem.solveFirst(cups, 10))
+        assertEquals(67_384_529, problem.solveFirst(cups, 100))
     }
 
     @Test
     fun validateFirstSolution() {
-        assertEquals("97245386", problem.solveFirst(input, 100))
+        assertEquals(97_245_386, problem.solveFirst(input, 100))
+    }
+
+    @Test
+    fun validateSecondSampleInputs() {
+        assertEquals(149_245_887_792, problem.solveSecond(cups, 10_000_000))
+    }
+
+    @Test
+    fun validateSecondSolution() {
+        assertEquals(156_180_332_979, problem.solveSecond(input, 10_000_000))
     }
 }
