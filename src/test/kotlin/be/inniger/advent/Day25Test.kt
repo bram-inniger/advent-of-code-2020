@@ -18,4 +18,14 @@ class Day25Test {
     fun validateFirstSolution() {
         assertEquals(7_032_853, problem.solveFirst(input[0], input[1]))
     }
+
+    @Test
+    fun validateSecondSampleInputs() {
+        // No part 2 of the puzzle
+    }
+
+    @Test
+    fun validateSecondSolution() {
+        // No part 2 of the puzzle
+    }
 }
