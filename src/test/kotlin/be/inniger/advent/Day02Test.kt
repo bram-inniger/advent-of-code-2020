@@ -6,7 +6,6 @@ import kotlin.test.assertEquals
 
 class Day02Test {
 
-    private val problem = Day02()
     private val input = readInputFile("02")
     private val passwords = listOf(
         "1-3 a: abcde",
@@ -16,21 +15,21 @@ class Day02Test {
 
     @Test
     fun validateFirstSampleInputs() {
-        assertEquals(2, problem.solveFirst(passwords))
+        assertEquals(2, Day02.solveFirst(passwords))
     }
 
     @Test
     fun validateFirstSolution() {
-        assertEquals(600, problem.solveFirst(input))
+        assertEquals(600, Day02.solveFirst(input))
     }
 
     @Test
     fun validateSecondSampleInputs() {
-        assertEquals(1, problem.solveSecond(passwords))
+        assertEquals(1, Day02.solveSecond(passwords))
     }
 
     @Test
     fun validateSecondSolution() {
-        assertEquals(245, problem.solveSecond(input))
+        assertEquals(245, Day02.solveSecond(input))
     }
 }

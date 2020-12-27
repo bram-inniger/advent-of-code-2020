@@ -1,6 +1,6 @@
 package be.inniger.advent
 
-class Day16 {
+object Day16 {
 
     fun solveFirst(notes: String): Int {
         val (fieldsRaw, _, nearbyTicketsRaw) = notes.split("\n\n")

@@ -6,7 +6,6 @@ import kotlin.test.assertEquals
 
 class Day19Test {
 
-    private val problem = Day19()
     private val input = readInputFile("19").joinToString("\n")
 
     @Test
@@ -27,12 +26,12 @@ class Day19Test {
                 aaaabbb
             """.trimIndent()
 
-        assertEquals(2, problem.solveFirst(messageInfo))
+        assertEquals(2, Day19.solveFirst(messageInfo))
     }
 
     @Test
     fun validateFirstSolution() {
-        assertEquals(156, problem.solveFirst(input))
+        assertEquals(156, Day19.solveFirst(input))
     }
 
     @Test
@@ -88,11 +87,11 @@ class Day19Test {
                 aabbbbbaabbbaaaaaabbbbbababaaaaabbaaabba
             """.trimIndent()
 
-        assertEquals(12, problem.solveSecond(messageInfo))
+        assertEquals(12, Day19.solveSecond(messageInfo))
     }
 
     @Test
     fun validateSecondSolution() {
-        assertEquals(363, problem.solveSecond(input))
+        assertEquals(363, Day19.solveSecond(input))
     }
 }

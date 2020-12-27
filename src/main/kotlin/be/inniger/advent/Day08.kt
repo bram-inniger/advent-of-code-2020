@@ -2,7 +2,7 @@ package be.inniger.advent
 
 import be.inniger.advent.Day08.Result.HaltState
 
-class Day08 {
+object Day08 {
 
     fun solveFirst(program: List<String>) =
         execute(program).acc

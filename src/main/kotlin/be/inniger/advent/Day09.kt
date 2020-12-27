@@ -3,7 +3,7 @@ package be.inniger.advent
 import be.inniger.advent.util.maxOrThrow
 import be.inniger.advent.util.minOrThrow
 
-class Day09 {
+object Day09 {
 
     fun solveFirst(xmas: List<Long>, preAmble: Int) =
         findFault(xmas, preAmble)

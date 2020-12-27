@@ -1,6 +1,6 @@
 package be.inniger.advent
 
-class Day06 {
+object Day06 {
 
     fun solveFirst(fullResponse: String) =
         fullResponse.split("\n\n")

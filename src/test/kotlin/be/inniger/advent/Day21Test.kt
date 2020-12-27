@@ -6,7 +6,6 @@ import kotlin.test.assertEquals
 
 class Day21Test {
 
-    private val problem = Day21()
     private val input = readInputFile("21")
     private val foods = listOf(
         "mxmxvkd kfcds sqjhc nhms (contains dairy, fish)",
@@ -17,21 +16,21 @@ class Day21Test {
 
     @Test
     fun validateFirstSampleInputs() {
-        assertEquals(5, problem.solveFirst(foods))
+        assertEquals(5, Day21.solveFirst(foods))
     }
 
     @Test
     fun validateFirstSolution() {
-        assertEquals(2_211, problem.solveFirst(input))
+        assertEquals(2_211, Day21.solveFirst(input))
     }
 
     @Test
     fun validateSecondSampleInputs() {
-        assertEquals("mxmxvkd,sqjhc,fvjkl", problem.solveSecond(foods))
+        assertEquals("mxmxvkd,sqjhc,fvjkl", Day21.solveSecond(foods))
     }
 
     @Test
     fun validateSecondSolution() {
-        assertEquals("vv,nlxsmb,rnbhjk,bvnkk,ttxvphb,qmkz,trmzkcfg,jpvz", problem.solveSecond(input))
+        assertEquals("vv,nlxsmb,rnbhjk,bvnkk,ttxvphb,qmkz,trmzkcfg,jpvz", Day21.solveSecond(input))
     }
 }

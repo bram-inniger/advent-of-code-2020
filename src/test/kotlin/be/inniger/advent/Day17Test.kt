@@ -6,7 +6,6 @@ import kotlin.test.assertEquals
 
 class Day17Test {
 
-    private val problem = Day17()
     private val input = readInputFile("17")
     private val initialState = listOf(
         ".#.",
@@ -16,21 +15,21 @@ class Day17Test {
 
     @Test
     fun validateFirstSampleInputs() {
-        assertEquals(112, problem.solveFirst(initialState))
+        assertEquals(112, Day17.solveFirst(initialState))
     }
 
     @Test
     fun validateFirstSolution() {
-        assertEquals(391, problem.solveFirst(input))
+        assertEquals(391, Day17.solveFirst(input))
     }
 
     @Test
     fun validateSecondSampleInputs() {
-        assertEquals(848, problem.solveSecond(initialState))
+        assertEquals(848, Day17.solveSecond(initialState))
     }
 
     @Test
     fun validateSecondSolution() {
-        assertEquals(2264, problem.solveSecond(input))
+        assertEquals(2264, Day17.solveSecond(input))
     }
 }

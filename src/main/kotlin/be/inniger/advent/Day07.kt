@@ -3,11 +3,9 @@ package be.inniger.advent
 import be.inniger.advent.util.head
 import be.inniger.advent.util.tail
 
-class Day07 {
+object Day07 {
 
-    private companion object {
-        private const val TO_FIND = "shiny gold"
-    }
+    private const val TO_FIND = "shiny gold"
 
     fun solveFirst(bagRules: List<String>) =
         bagRules.map { Rule.of(it) }

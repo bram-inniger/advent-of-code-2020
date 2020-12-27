@@ -1,6 +1,6 @@
 package be.inniger.advent
 
-class Day23 {
+object Day23 {
 
     fun solveFirst(orig: List<Int>, nrMoves: Int): Int {
         val cups = solve(orig, nrMoves, 9)

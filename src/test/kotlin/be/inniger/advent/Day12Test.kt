@@ -6,7 +6,7 @@ import kotlin.test.assertEquals
 
 class Day12Test {
 
-    private val problem = Day12()
+    private val problem = Day12
     private val input = readInputFile("12")
     private val instructions = listOf(
         "F10",

@@ -1,7 +1,6 @@
 package be.inniger.advent
 
-@Suppress("ComplexRedundantLet")
-class Day18 {
+object Day18 {
 
     fun solveFirst(expressions: List<String>) =
         expressions.map { it.replace(" ", "") }.map { eval(it, setOf("+", "*"), setOf()).toLong() }.sum()
@@ -9,6 +8,7 @@ class Day18 {
     fun solveSecond(expressions: List<String>) =
         expressions.map { it.replace(" ", "") }.map { eval(it, setOf("+"), setOf("*")).toLong() }.sum()
 
+    @Suppress("ComplexRedundantLet")
     private fun eval(expression: String, first: Set<String>, second: Set<String>) =
         tokenize(expression, first, second)
             .let { resolveOperations(first, it) }

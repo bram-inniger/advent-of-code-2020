@@ -3,7 +3,7 @@ package be.inniger.advent
 import be.inniger.advent.util.head
 import be.inniger.advent.util.tail
 
-class Day13 {
+object Day13 {
 
     fun solveFirst(notes: List<String>): Int {
         data class Departure(val busId: Int, val timeUntil: Int)

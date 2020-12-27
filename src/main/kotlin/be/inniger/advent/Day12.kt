@@ -6,7 +6,7 @@ import be.inniger.advent.util.head
 import be.inniger.advent.util.tail
 import kotlin.math.abs
 
-class Day12 {
+object Day12 {
 
     fun solveFirst(instructions: List<String>) =
         simpleManoeuvre(

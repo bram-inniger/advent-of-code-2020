@@ -3,7 +3,7 @@ package be.inniger.advent
 import be.inniger.advent.util.head
 import be.inniger.advent.util.tail
 
-class Day22 {
+object Day22 {
 
     fun solveFirst(decks: String): Int {
         val (player1, player2) = decks.split("\n\n")

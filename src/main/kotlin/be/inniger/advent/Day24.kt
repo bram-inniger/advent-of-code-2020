@@ -1,6 +1,6 @@
 package be.inniger.advent
 
-class Day24 {
+object Day24 {
 
     fun solveFirst(instructions: List<String>) =
         parseBlackTiles(instructions).count()

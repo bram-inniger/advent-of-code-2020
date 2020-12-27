@@ -6,7 +6,6 @@ import kotlin.test.assertEquals
 
 class Day03Test {
 
-    private val problem = Day03()
     private val input = readInputFile("03")
     private val trees = listOf(
         "..##.......",
@@ -24,21 +23,21 @@ class Day03Test {
 
     @Test
     fun validateFirstSampleInputs() {
-        assertEquals(7, problem.solveFirst(trees))
+        assertEquals(7, Day03.solveFirst(trees))
     }
 
     @Test
     fun validateFirstSolution() {
-        assertEquals(284, problem.solveFirst(input))
+        assertEquals(284, Day03.solveFirst(input))
     }
 
     @Test
     fun validateSecondSampleInputs() {
-        assertEquals(336, problem.solveSecond(trees))
+        assertEquals(336, Day03.solveSecond(trees))
     }
 
     @Test
     fun validateSecondSolution() {
-        assertEquals(3_510_149_120, problem.solveSecond(input))
+        assertEquals(3_510_149_120, Day03.solveSecond(input))
     }
 }

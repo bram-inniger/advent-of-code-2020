@@ -1,11 +1,9 @@
 package be.inniger.advent
 
-class Day25 {
+object Day25 {
 
-    private companion object {
-        private const val SUBJECT = 7
-        private const val DIVISOR = 20_201_227
-    }
+    private const val SUBJECT = 7
+    private const val DIVISOR = 20_201_227
 
     fun solveFirst(cardPublicKey: Int, doorPublicKey: Int): Int {
         val cardLoopSize = crackLoopsSize(cardPublicKey)

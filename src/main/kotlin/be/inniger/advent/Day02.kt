@@ -1,6 +1,6 @@
 package be.inniger.advent
 
-class Day02 {
+object Day02 {
 
     fun solveFirst(passwords: List<String>) = passwords
         .map { Password.of(it) }

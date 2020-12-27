@@ -1,6 +1,6 @@
 package be.inniger.advent
 
-class Day11 {
+object Day11 {
 
     fun solveFirst(gridString: List<String>) =
         solve(Result(Grid.of(gridString)), 4) { grid, coord -> nrOfOccupiedNeighbours(grid, coord) }

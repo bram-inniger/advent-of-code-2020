@@ -6,7 +6,7 @@ import kotlin.test.assertEquals
 
 class Day10Test {
 
-    private val problem = Day10()
+    private val problem = Day10
     private val input = readInputFile("10").map { it.toInt() }
     private val shorterExample = listOf(16, 10, 15, 5, 1, 11, 7, 19, 6, 12, 4)
     private val longerExample = listOf(

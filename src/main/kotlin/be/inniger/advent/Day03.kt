@@ -1,6 +1,6 @@
 package be.inniger.advent
 
-class Day03 {
+object Day03 {
 
     fun solveFirst(treesDescription: List<String>): Long {
         val forest = Forest.of(treesDescription)

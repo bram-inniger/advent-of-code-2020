@@ -1,6 +1,6 @@
 package be.inniger.advent
 
-class Day04 {
+object Day04 {
 
     fun solveFirst(passportsDescription: String) =
         passportsDescription.split("\n\n")

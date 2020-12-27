@@ -7,7 +7,6 @@ import kotlin.test.assertEquals
 
 class Day20Test {
 
-    private val problem = Day20()
     private val input = readInputFile("20").joinToString("\n")
     private val tiles =
         """
@@ -122,23 +121,23 @@ class Day20Test {
 
     @Test
     fun validateFirstSampleInputs() {
-        assertEquals(20_899_048_083_289, problem.solveFirst(tiles))
+        assertEquals(20_899_048_083_289, Day20.solveFirst(tiles))
     }
 
-    @Ignore("Too long runtime...")
+    @Ignore("Too long runtime...") // FIXME
     @Test
     fun validateFirstSolution() {
-        assertEquals(28_057_939_502_729, problem.solveFirst(input))
+        assertEquals(28_057_939_502_729, Day20.solveFirst(input))
     }
 
     @Test
     fun validateSecondSampleInputs() {
-        assertEquals(273, problem.solveSecond(tiles))
+        assertEquals(273, Day20.solveSecond(tiles))
     }
 
-    @Ignore("Too long runtime...")
+    @Ignore("Too long runtime...") // FIXME
     @Test
     fun validateSecondSolution() {
-        assertEquals(2_489, problem.solveSecond(input))
+        assertEquals(2_489, Day20.solveSecond(input))
     }
 }

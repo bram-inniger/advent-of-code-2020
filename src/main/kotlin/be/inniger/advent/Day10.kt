@@ -2,7 +2,7 @@ package be.inniger.advent
 
 import be.inniger.advent.util.maxOrThrow
 
-class Day10 {
+object Day10 {
 
     fun solveFirst(adapters: List<Int>): Int {
         val jolts = listOf(0) +

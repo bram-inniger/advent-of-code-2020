@@ -1,11 +1,9 @@
 package be.inniger.advent
 
-class Day05 {
+object Day05 {
 
-    private companion object {
-        private const val MAX_ROW = 128
-        private const val MAX_COL = 8
-    }
+    private const val MAX_ROW = 128
+    private const val MAX_COL = 8
 
     fun solveFirst(boardingPassDescriptions: List<String>) =
         boardingPassDescriptions

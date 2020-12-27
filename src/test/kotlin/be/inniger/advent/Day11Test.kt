@@ -6,7 +6,7 @@ import kotlin.test.assertEquals
 
 class Day11Test {
 
-    private val problem = Day11()
+    private val problem = Day11
     private val input = readInputFile("11")
     private val grid = listOf(
         "L.LL.LL.LL",

@@ -1,6 +1,6 @@
 package be.inniger.advent
 
-class Day15 {
+object Day15 {
 
     fun solveFirst(startingNumbers: List<Int>): Int {
         val maxTurn = 2020

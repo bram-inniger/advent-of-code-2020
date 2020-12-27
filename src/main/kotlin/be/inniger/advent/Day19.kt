@@ -1,10 +1,8 @@
 package be.inniger.advent
 
-class Day19 {
+object Day19 {
 
-    private companion object {
-        private val charRegex = """"(\w)"""".toRegex()
-    }
+    private val charRegex = """"(\w)"""".toRegex()
 
     fun solveFirst(messageInfo: String) =
         solve(messageInfo)

@@ -6,7 +6,6 @@ import kotlin.test.assertEquals
 
 class Day09Test {
 
-    private val problem = Day09()
     private val input = readInputFile("09").map { it.toLong() }
     private val xmas = listOf<Long>(
         35,
@@ -33,21 +32,21 @@ class Day09Test {
 
     @Test
     fun validateFirstSampleInputs() {
-        assertEquals(127, problem.solveFirst(xmas, 5))
+        assertEquals(127, Day09.solveFirst(xmas, 5))
     }
 
     @Test
     fun validateFirstSolution() {
-        assertEquals(731031916, problem.solveFirst(input, 25))
+        assertEquals(731031916, Day09.solveFirst(input, 25))
     }
 
     @Test
     fun validateSecondSampleInputs() {
-        assertEquals(62, problem.solveSecond(xmas, 5))
+        assertEquals(62, Day09.solveSecond(xmas, 5))
     }
 
     @Test
     fun validateSecondSolution() {
-        assertEquals(93396727, problem.solveSecond(input, 25))
+        assertEquals(93396727, Day09.solveSecond(input, 25))
     }
 }

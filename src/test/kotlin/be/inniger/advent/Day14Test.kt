@@ -6,7 +6,6 @@ import kotlin.test.assertEquals
 
 class Day14Test {
 
-    private val problem = Day14()
     private val input = readInputFile("14")
 
     @Test
@@ -18,12 +17,12 @@ class Day14Test {
             "mem[8] = 0"
         )
 
-        assertEquals(165, problem.solveFirst(program))
+        assertEquals(165, Day14.solveFirst(program))
     }
 
     @Test
     fun validateFirstSolution() {
-        assertEquals(8_332_632_930_672, problem.solveFirst(input))
+        assertEquals(8_332_632_930_672, Day14.solveFirst(input))
     }
 
     @Test
@@ -35,11 +34,11 @@ class Day14Test {
             "mem[26] = 1"
         )
 
-        assertEquals(208, problem.solveSecond(program))
+        assertEquals(208, Day14.solveSecond(program))
     }
 
     @Test
     fun validateSecondSolution() {
-        assertEquals(4_753_238_784_664, problem.solveSecond(input))
+        assertEquals(4_753_238_784_664, Day14.solveSecond(input))
     }
 }

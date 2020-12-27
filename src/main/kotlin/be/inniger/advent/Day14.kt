@@ -5,11 +5,9 @@ import be.inniger.advent.Day14.Instruction.MemInstruction
 import be.inniger.advent.util.head
 import be.inniger.advent.util.tail
 
-class Day14 {
+object Day14 {
 
-    private companion object {
-        private const val INSTRUCTION_WIDTH = 36
-    }
+    private const val INSTRUCTION_WIDTH = 36
 
     fun solveFirst(program: List<String>) =
         runInit(

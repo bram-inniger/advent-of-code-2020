@@ -1,6 +1,6 @@
 package be.inniger.advent
 
-class Day21 {
+object Day21 {
 
     fun solveFirst(foodsRaw: List<String>): Int {
         val foods = foodsRaw.map { Food.of(it) }

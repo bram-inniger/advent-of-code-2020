@@ -1,10 +1,8 @@
 package be.inniger.advent
 
-class Day17 {
+object Day17 {
 
-    private companion object {
-        private const val NR_CYCLES = 6
-    }
+    private const val NR_CYCLES = 6
 
     fun solveFirst(initialState: List<String>): Int {
         data class Coordinate(val x: Int, val y: Int, val z: Int)

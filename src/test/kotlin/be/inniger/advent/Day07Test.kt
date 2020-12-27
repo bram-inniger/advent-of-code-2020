@@ -6,7 +6,6 @@ import kotlin.test.assertEquals
 
 class Day07Test {
 
-    private val problem = Day07()
     private val input = readInputFile("07")
     private val exampleRules = listOf(
         "light red bags contain 1 bright white bag, 2 muted yellow bags.",
@@ -22,12 +21,12 @@ class Day07Test {
 
     @Test
     fun validateFirstSampleInputs() {
-        assertEquals(4, problem.solveFirst(exampleRules))
+        assertEquals(4, Day07.solveFirst(exampleRules))
     }
 
     @Test
     fun validateFirstSolution() {
-        assertEquals(229, problem.solveFirst(input))
+        assertEquals(229, Day07.solveFirst(input))
     }
 
     @Test
@@ -42,12 +41,12 @@ class Day07Test {
             "dark violet bags contain no other bags."
         )
 
-        assertEquals(32, problem.solveSecond(exampleRules))
-        assertEquals(126, problem.solveSecond(otherExampleRules))
+        assertEquals(32, Day07.solveSecond(exampleRules))
+        assertEquals(126, Day07.solveSecond(otherExampleRules))
     }
 
     @Test
     fun validateSecondSolution() {
-        assertEquals(6683, problem.solveSecond(input))
+        assertEquals(6683, Day07.solveSecond(input))
     }
 }

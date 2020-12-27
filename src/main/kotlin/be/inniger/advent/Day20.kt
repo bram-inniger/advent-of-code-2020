@@ -4,32 +4,33 @@ import be.inniger.advent.util.head
 import be.inniger.advent.util.sqrt
 import be.inniger.advent.util.tail
 
-class Day20 {
+object Day20 {
 
-    private companion object {
-        private val monster = parseMonster(
-            """
-                                  # 
-                #    ##    ##    ###
-                 #  #  #  #  #  #   
-            """.trimIndent().split("\n")
-        )
-
-        private fun parseMonster(monster: List<String>) = Monster(
-            monster.first().length,
-            monster.size,
-            monster.indices
-                .flatMap { y ->
-                    monster[y].indices.map { x ->
-                        Coordinate(x, y)
-                    }
-                }
-                .filter { monster[it.y][it.x] == '#' }
-                .toSet())
+    private val monster by lazy {
+        """
+                              # 
+            #    ##    ##    ###
+             #  #  #  #  #  #   
+        """.trimIndent()
+            .split("\n")
+            .let { monster ->
+                Monster(
+                    monster.first().length,
+                    monster.size,
+                    monster.indices
+                        .flatMap { y ->
+                            monster[y].indices.map { x ->
+                                Coordinate(x, y)
+                            }
+                        }
+                        .filter { monster[it.y][it.x] == '#' }
+                        .toSet())
+            }
     }
 
     fun solveFirst(tiles: String) =
         multiplyCorners(assemble(parseTiles(tiles)))
+
 
     fun solveSecond(tiles: String) =
         determineRoughness(assemble(parseTiles(tiles)))
