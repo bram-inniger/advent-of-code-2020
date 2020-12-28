@@ -5,29 +5,18 @@ object Day25 {
     private const val SUBJECT = 7
     private const val DIVISOR = 20_201_227
 
-    fun solveFirst(cardPublicKey: Int, doorPublicKey: Int): Int {
-        val cardLoopSize = crackLoopsSize(cardPublicKey)
-        val doorLoopSize = crackLoopsSize(doorPublicKey)
+    fun solveFirst(cardPublicKey: Long, doorPublicKey: Long) =
+        listOf(
+            crack(cardPublicKey, doorPublicKey),
+            crack(doorPublicKey, cardPublicKey)
+        ).distinct().single()
 
-        val cardEncryptionKey = crackEncryptionKey(cardPublicKey, doorLoopSize)
-        val doorEncryptionKey = crackEncryptionKey(doorPublicKey, cardLoopSize)
-
-        return listOf(cardEncryptionKey, doorEncryptionKey).distinct().single()
-    }
-
-    private tailrec fun crackLoopsSize(publicKey: Int, calculatedKey: Long = 1, loopSize: Int = 0): Int =
-        if (calculatedKey.toInt() == publicKey) loopSize
-        else crackLoopsSize(
-            publicKey,
-            (calculatedKey * SUBJECT) % DIVISOR,
-            loopSize + 1
-        )
-
-    private tailrec fun crackEncryptionKey(subject: Int, loopSize: Int, calculatedKey: Long = 1): Int =
-        if (loopSize == 0) calculatedKey.toInt()
-        else crackEncryptionKey(
-            subject,
-            loopSize - 1,
-            (calculatedKey * subject) % DIVISOR
+    private tailrec fun crack(pubKey1: Long, pubKey2: Long, crackedPubKey: Long = 1, crackedPrivKey: Long = 1): Long =
+        if (crackedPubKey == pubKey1) crackedPrivKey
+        else crack(
+            pubKey1,
+            pubKey2,
+            (crackedPubKey * SUBJECT) % DIVISOR,
+            (crackedPrivKey * pubKey2) % DIVISOR
         )
 }
