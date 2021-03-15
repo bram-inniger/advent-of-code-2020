@@ -1,5 +1,7 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
-    kotlin("jvm") version "1.4.21"
+    kotlin("jvm") version "1.4.31"
 }
 
 repositories {
@@ -10,3 +12,6 @@ dependencies {
     implementation(kotlin("stdlib"))
     testImplementation(kotlin("test-junit"))
 }
+
+val compileKotlin: KotlinCompile by tasks
+compileKotlin.kotlinOptions.useIR = true
