@@ -15,13 +15,12 @@ object Day07 {
                     .map { content -> content to rule.bag }
             }
             .groupingBy { it.first }
-            .fold(setOf<String>(), { bags, container -> bags + container.second })
+            .fold(setOf<String>()) { bags, container -> bags + container.second }
             .let { countContainerBags(it) }
 
     fun solveSecond(bagRules: List<String>): Int {
         return bagRules.map { Rule.of(it) }
-            .map { it.bag to it.contents }
-            .toMap()
+            .associate { it.bag to it.contents }
             .let { countContainedBags(it) }
             .minus(1)
     }
@@ -50,7 +49,7 @@ object Day07 {
 
         companion object {
             private val fullRegex =
-                """^(\w+ \w+) bags contain ((?:\d+ \w+ \w+ bags?(?:, )?)+|(?:no other bags))\.$""".toRegex()
+                """^(\w+ \w+) bags contain ((?:\d+ \w+ \w+ bags?(?:, )?)+|no other bags)\.$""".toRegex()
             private val contentRegex = """^(\d+) (\w+ \w+) bags?$""".toRegex()
 
             internal fun of(bagRule: String): Rule {
@@ -59,11 +58,10 @@ object Day07 {
                     if (contents == "no other bags") mapOf()
                     else contents
                         .split(", ")
-                        .map {
+                        .associate {
                             val (bagsCount, containedBag) = contentRegex.find(it)!!.destructured
                             containedBag to bagsCount.toInt()
                         }
-                        .toMap()
 
                 return Rule(bag, parsedContents)
             }

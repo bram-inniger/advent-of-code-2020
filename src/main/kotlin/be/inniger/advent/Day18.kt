@@ -3,10 +3,10 @@ package be.inniger.advent
 object Day18 {
 
     fun solveFirst(expressions: List<String>) =
-        expressions.map { it.replace(" ", "") }.map { eval(it, setOf("+", "*"), setOf()).toLong() }.sum()
+        expressions.map { it.replace(" ", "") }.sumOf { eval(it, setOf("+", "*"), setOf()).toLong() }
 
     fun solveSecond(expressions: List<String>) =
-        expressions.map { it.replace(" ", "") }.map { eval(it, setOf("+"), setOf("*")).toLong() }.sum()
+        expressions.map { it.replace(" ", "") }.sumOf { eval(it, setOf("+"), setOf("*")).toLong() }
 
     @Suppress("ComplexRedundantLet")
     private fun eval(expression: String, first: Set<String>, second: Set<String>) =

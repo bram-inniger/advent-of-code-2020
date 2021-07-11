@@ -38,7 +38,7 @@ object Day14 {
         nextMemory: (MemInstruction, String) -> Iterable<Pair<String, String>>,
         memory: Map<String, String> = mapOf()
     ): Long =
-        if (program.isEmpty()) memory.values.map { it.toLong(2) }.sum()
+        if (program.isEmpty()) memory.values.sumOf { it.toLong(2) }
         else when (val instruction = program.head()) {
             is MaskInstruction -> runInit(program.tail(), instruction.mask, nextMemory, memory)
             is MemInstruction -> runInit(program.tail(), mask, nextMemory, memory + nextMemory(instruction, mask))

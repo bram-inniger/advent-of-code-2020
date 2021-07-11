@@ -36,8 +36,7 @@ object Day04 {
             internal fun of(passportDescription: String) =
                 passportDescription.replace('\n', ' ')
                     .split(' ')
-                    .map { it.substringBefore(':') to it.substringAfter(':') }
-                    .toMap()
+                    .associate { it.substringBefore(':') to it.substringAfter(':') }
                     .let { Passport(it) }
         }
 

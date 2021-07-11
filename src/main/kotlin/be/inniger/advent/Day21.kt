@@ -10,11 +10,9 @@ object Day21 {
         val unsafeIngredients = mappedAllergens.values.flatten().toSet()
         val safeIngredients = allIngredients - unsafeIngredients
 
-        return safeIngredients
-            .map { ingredient ->
-                foods.filter { food -> food.ingredients.contains(ingredient) }.count()
-            }
-            .sum()
+        return safeIngredients.sumOf { ingredient ->
+            foods.filter { food -> food.ingredients.contains(ingredient) }.count()
+        }
     }
 
     fun solveSecond(foods: List<String>) =
@@ -28,12 +26,12 @@ object Day21 {
     private fun mapAllergens(foods: List<Food>) =
         foods.flatMap { it.allergens }
             .distinct()
-            .map { allergen ->
-                allergen to foods
+            .associateWith { allergen ->
+                foods
                     .filter { food -> food.allergens.contains(allergen) }
                     .map { food -> food.ingredients }
                     .reduce(Set<String>::intersect)
-            }.toMap()
+            }
 
     private tailrec fun mapUniqueIngredient(
         mappedAllergens: Map<String, Set<String>>,

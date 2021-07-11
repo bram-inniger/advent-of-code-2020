@@ -23,8 +23,7 @@ object Day19 {
             0,
             rules.split("\n")
                 .map { it.split(": ") }
-                .map { it[0].toInt() to it[1] }
-                .toMap(),
+                .associate { it[0].toInt() to it[1] },
             overrides
         ).toRegex()
 

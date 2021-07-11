@@ -18,14 +18,15 @@ object Day10 {
     }
 
     fun solveSecond(adaptersList: List<Int>): Long {
-        fun findNrPaths(adapters: Set<Int>, from: Int, cache: MutableMap<Int, Long>): Long =
-            cache.getOrPut(from) {
-                (1..3).map { from - it }
-                    .filter { adapters.contains(it) }
-                    .map { findNrPaths(adapters, it, cache) }
-                    .sum()
-            }
+        tailrec fun findNrPaths(adapters: List<Int>, found: Map<Int, Long>): Map<Int, Long> =
+            if (adapters.isEmpty()) found
+            else findNrPaths(
+                adapters.drop(1),
+                found +
+                        (adapters.first() to (1..3).sumOf { found.getOrDefault(adapters.first() - it, 0) })
+            )
 
-        return findNrPaths(adaptersList.toSet() + 0, adaptersList.maxOrThrow(), mutableMapOf(0 to 1))
+        val sortedAdapters = adaptersList.sorted()
+        return findNrPaths(sortedAdapters, mapOf(0 to 1))[sortedAdapters.last()]!!
     }
 }
